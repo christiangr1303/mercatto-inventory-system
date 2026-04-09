@@ -31,20 +31,26 @@ public class ProductoService {
 		return productoRepository.findAll()
 				.stream().map(this::toDTO).toList();
 	}
+	
+	public List<ProductoDTO> listarPorCategoria(Long categoriaId) {
+		return productoRepository.findByCategoriaId(categoriaId)
+				.stream().map(this::toDTO).toList();
+	}
 
 	public ProductoDTO obtenerPorId(Long id) {
 		Producto producto = productoRepository.findById(id).orElseThrow();
 		return toDTO(producto);
 	}
 
-	public Producto guardar(ProductoFormDTO dto) {
+	public ProductoDTO guardar(ProductoFormDTO dto) {
 		Producto producto = toEntity(dto);
-		return productoRepository.save(producto);
+		productoRepository.save(producto);
+		return toDTO(producto);
 	}
-
-	public void desactivar(Long id) {
-		Producto producto = productoRepository.findById(id).orElse(null);
-		producto.setEstado(false);
+	
+	public void cambiarEstado(Long id) {
+		Producto producto = productoRepository.findById(id).orElseThrow();
+		producto.setEstado(!producto.getEstado());
 		productoRepository.save(producto);
 	}
 	
@@ -81,7 +87,7 @@ public class ProductoService {
 		
 		p.setNombre(dto.getNombre());
 		p.setDescripcion(dto.getDescripcion());
-		p.setPrecio(p.getPrecio());
+		p.setPrecio(dto.getPrecio());
 		p.setStock(dto.getStock());
 		
 		if (dto.getCategoriaId() != null) {

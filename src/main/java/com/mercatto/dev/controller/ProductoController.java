@@ -1,0 +1,63 @@
+package com.mercatto.dev.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.mercatto.dev.dto.ProductoFormDTO;
+import com.mercatto.dev.service.CategoriaService;
+import com.mercatto.dev.service.ProductoService;
+import com.mercatto.dev.service.ProveedorService;
+
+@Controller
+@RequestMapping("/productos")
+public class ProductoController {
+	
+	@Autowired
+	private ProductoService productoService;
+	
+	@Autowired
+	private CategoriaService categoriaService;
+	
+	@Autowired
+	private ProveedorService proveedorService;
+	
+	@GetMapping
+	public String listar(Model model) {
+		model.addAttribute("productos", productoService.listar());
+		return "productos/lista";
+	}
+	
+	@GetMapping("/nuevo")
+	public String mostrarFormulario(Model model) {
+		model.addAttribute("producto", new ProductoFormDTO());
+		model.addAttribute("categorias", categoriaService.listar());
+		model.addAttribute("proveedores", proveedorService.listar());
+		return "productos/form";
+	}
+	
+	public String editar(@PathVariable Long id, Model model) {
+		model.addAttribute("producto", productoService.obtenerPorId(id));
+		model.addAttribute("categorias", categoriaService.listar());
+		model.addAttribute("proveedores", proveedorService.listar());
+		return "productos/form";
+	}
+	
+	@PostMapping("/guardar")
+	public String guardar(@ModelAttribute ProductoFormDTO dto) {
+		productoService.guardar(dto);
+		return "redirect:/productos";
+	}
+	
+	@PostMapping("/cambiarEstado")
+	public String cambiarEstado(Long id) {
+		productoService.cambiarEstado(id);
+		return "redirect:/productos";
+	}
+
+}
