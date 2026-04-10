@@ -20,23 +20,27 @@
 		<div id="layoutSidenav_content">
 			<!-- Aqui ira tu contenido -->
 			<div class="container mt-4">
-				<div class="card shadow-sm">
-					<div class="card-body">
-						<h3 class="mb-4">Nueva Categoría</h3>
-						<form th:action="@{/categorias/guardar}" th:object="${categoria}" method="post">
-							<div class="mb-3">
-								<label class="form-label">Nombre</label>
-								<input type="text" th:field="*{nombre}" class="form-control" required>
-							</div>
-							<div class="mb-3">
-								<label class="form-label">Descripción</label>
-								<textarea th:field="*{descripcion}" class="form-control" rows="3"></textarea>
-							</div>
-							<button type="submit" class="btn btn-primary">Guardar</button>
-							<a th:href="@{/categorias}" class="btn btn-secondary">Cancelar</a>
-						</form>
-					</div>
-				</div>
+			    <div class="card shadow-sm">
+			        <div class="card-body">
+			            <h3 class="mb-4">Nuevo Proveedor</h3>
+			            <form th:action="@{/proveedores/guardar}" th:object="${proveedor}" method="post">
+			                <div class="mb-3">
+			                    <label class="form-label">Nombre</label>
+			                    <input type="text" th:field="*{nombre}" class="form-control" required>
+			                </div>
+			                <div class="mb-3">
+			                    <label class="form-label">Email</label>
+			                    <input type="email" th:field="*{email}" class="form-control">
+			                </div>
+			                <div class="mb-3">
+			                    <label class="form-label">Teléfono</label>
+			                    <input type="text" th:field="*{telefono}" class="form-control">
+			                </div>
+			                <button type="submit" class="btn btn-primary">Guardar</button>
+			                <a th:href="@{/proveedores}" class="btn btn-secondary">Cancelar</a>
+			            </form>
+			        </div>
+			    </div>
 			</div>
 			<footer th:replace="~{plantillas/fragments :: footer}"></footer>
 		</div>

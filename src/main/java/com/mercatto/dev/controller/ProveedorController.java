@@ -27,7 +27,7 @@ public class ProveedorController {
 	@GetMapping("/nuevo")
 	public String mostrarFormulario(Model model) {
 		model.addAttribute("proveedor", new ProveedorDTO());
-		return "proveedores/nuevo";
+		return "proveedores/form";
 	}
 	
 	@PostMapping("/guardar")

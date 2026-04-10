@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
 	<meta charset="utf-8" />
@@ -11,64 +11,63 @@
 	<link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
 	<link th:href="@{/css/styles.css}" rel="stylesheet" />
 	<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-	<script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body>
-
 	<nav th:replace="~{/plantillas/fragments :: navbar}"></nav>
 	<div id="layoutSidenav">
 		<div th:replace="~{/plantillas/fragments :: menuLateral}"></div>
 		<div id="layoutSidenav_content">
-
+			<!-- Aqui ira tu contenido -->
 			<div class="container mt-4">
+
 				<div class="d-flex justify-content-between align-items-center mb-3">
-					<h2 class="fw-bold">Productos</h2>
-					<a th:href="@{/productos/nuevo}" class="btn btn-primary">+ Nuevo</a>
+					<h2 class="fw-bold">Proveedores</h2>
+					<a th:href="@{/proveedores/nuevo}" class="btn btn-primary">
+						+ Nuevo
+					</a>
 				</div>
+
 				<div class="card shadow-sm">
 					<div class="card-body">
+
 						<div class="table-responsive">
-							<table class="table table-bordered table-hover text-center align-middle">
-								<thead class="table-light">
+							<table class="table table-bordered table-hover align-middle">
+
+								<thead class="table-light text-center">
 									<tr>
 										<th>ID</th>
 										<th>Nombre</th>
-										<th>Precio</th>
-										<th>Stock</th>
-										<th>Categoría</th>
-										<th>Proveedor</th>
-										<th>Estado</th>
+										<th>Email</th>
+										<th>Teléfono</th>
 										<th>Acciones</th>
 									</tr>
 								</thead>
+
 								<tbody>
-									<tr th:each="p : ${productos}">
-										<td th:text="${p.id}"></td>
+									<tr th:each="p : ${proveedores}">
+										<td th:text="${p.id}" class="text-center"></td>
 										<td th:text="${p.nombre}"></td>
-										<td th:text="${p.precio}"></td>
-										<td th:text="${p.stock}"></td>
-										<td th:text="${p.categoriaNombre}"></td>
-										<td th:text="${p.proveedorNombre}"></td>
-										<td>
-											<span class="badge" th:text="${p.estado ? 'Activo' : 'Inactivo'}"
-												th:classappend="${p.estado} ? ' bg-success' : ' bg-danger'">
-											</span>
-										</td>
-										<td>
-											<a th:href="@{'/productos/editar/' + ${p.id}}"
+										<td th:text="${p.email}"></td>
+										<td th:text="${p.telefono}"></td>
+
+										<td class="text-center">
+											<a th:href="@{'/proveedores/editar/' + ${p.id}}"
 												class="btn btn-sm btn-outline-primary">
 												Editar
 											</a>
-											<a th:href="@{'/productos/cambiarEstado/' + ${p.id}}"
+
+											<a th:href="@{'/proveedores/eliminar/' + ${p.id}}"
 												class="btn btn-sm btn-outline-danger">
-												Estado
+												Eliminar
 											</a>
 										</td>
 									</tr>
 								</tbody>
+
 							</table>
 						</div>
+
 					</div>
 				</div>
 
@@ -86,5 +85,3 @@
 		crossorigin="anonymous"></script>
 	<script src="js/datatables-simple-demo.js"></script>
 </body>
-
-</html>
