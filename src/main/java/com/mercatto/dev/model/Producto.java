@@ -49,6 +49,9 @@ public class Producto {
 	@OneToMany(mappedBy="producto", cascade=CascadeType.ALL)
 	private List<MovimientoInventario> movimiento;
 	
+	@ManyToOne
+	@JoinColumn(name="usuario_id")
+	private Usuario usuario;
 
 	public Producto() {
 		super();
@@ -147,6 +150,14 @@ public class Producto {
 
 	public void setMovimiento(List<MovimientoInventario> movimiento) {
 		this.movimiento = movimiento;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 	
 }

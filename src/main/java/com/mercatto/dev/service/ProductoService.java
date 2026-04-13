@@ -10,6 +10,7 @@ import com.mercatto.dev.dto.ProductoFormDTO;
 import com.mercatto.dev.model.Categoria;
 import com.mercatto.dev.model.Producto;
 import com.mercatto.dev.model.Proveedor;
+import com.mercatto.dev.model.Usuario;
 import com.mercatto.dev.repository.CategoriaRepository;
 import com.mercatto.dev.repository.ProductoRepository;
 import com.mercatto.dev.repository.ProveedorRepository;
@@ -53,6 +54,19 @@ public class ProductoService {
 		producto.setEstado(!producto.getEstado());
 		productoRepository.save(producto);
 	}
+	
+	// Ultimos Metodos con usuario incluido
+	public ProductoDTO crearProducto (ProductoFormDTO dto, Usuario usuario) {
+		Producto producto = toEntity(dto);
+		producto.setUsuario(usuario);
+		productoRepository.save(producto);
+		return toDTO(producto);
+	}
+	
+	public List<Producto> listarPorUsuario(Long usuarioId) {
+		return productoRepository.findByUsuarioId(usuarioId);
+	}
+	
 	
 	
 	// Entity -> DTO
