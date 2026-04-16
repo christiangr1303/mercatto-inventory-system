@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.mercatto.dev.model.Usuario;
@@ -21,16 +22,18 @@ public class UsuarioDetails implements UserDetails {
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return List.of();
+		return List.of(new SimpleGrantedAuthority("ROLE_USER"));
 	}
 
 	@Override
 	public @Nullable String getPassword() {
+		// Devuelve contraseña encriptada
 		return usuario.getPassword();
 	}
 
 	@Override
 	public String getUsername() {
+		// Defines que es el username (username = email)
 		return usuario.getEmail();
 	}
 	

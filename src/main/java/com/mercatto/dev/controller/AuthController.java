@@ -1,22 +1,47 @@
 package com.mercatto.dev.controller;
 
-//import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-//import com.mercatto.dev.service.UsuarioService;
+
+import com.mercatto.dev.dto.UserFormDTO;
+import com.mercatto.dev.service.UsuarioService;
 
 
 @Controller
 @RequestMapping("/auth")
 public class AuthController {
 	
-	//@Autowired
-	//private UsuarioService usuarioService;
+	@Autowired
+	private UsuarioService usuarioService;
 	
 	@GetMapping("/login")
 	public String mostrarLogin() {
-		return "login";
+		return "auth/login";
+	}
+	
+	@GetMapping("/register")
+	public String mostrarRegistro(Model model) {
+		model.addAttribute("usuario", new UserFormDTO());
+		return "auth/register";
+	}
+	
+	@PostMapping("/register")
+	public String register(@ModelAttribute("usuario") UserFormDTO dto, Model model) {
+		
+		String result = usuarioService.guardar(dto);
+		
+		if (!result.equals("ok")) {
+			model.addAttribute("error", result);
+			return "auth/register";
+		}
+		
+		model.addAttribute("success", "Usuario registrado correctamente");
+		return "redirect:/auth/login";
 	}
 	
 	/*
