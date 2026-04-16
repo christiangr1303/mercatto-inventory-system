@@ -38,18 +38,21 @@
 					<label class="form-label">Email</label>
 					<input type="email" th:field="*{email}" class="form-control" placeholder="ejemplo@email.com"
 						required>
+					<div class="text-danger" th:if="${#fields.hasErrors('email')" th:errors="*{email}"></div>
 				</div>
 
 				<div class="mb-3">
 					<label class="form-label">Contraseña</label>
 					<input type="password" th:field="*{password}" class="form-control" placeholder="Crea una contraseña"
 						required>
+					<div class="text-danger" th:if="${#fields.hasErrors('password')" th:errors="*{password}"></div>
 				</div>
 
 				<div class="mb-3">
 					<label class="form-label">Confirmar contraseña</label>
 					<input type="password" th:field="*{confirmPassword}" class="form-control"
 						placeholder="Repite la contraseña" required>
+					<div class="text-danger" th:if="${#fields.hasErrors('confirmPassword')" th:errors="*{confirmPassword}"></div>
 				</div>
 
 				<button type="submit" class="btn btn-success w-100">

@@ -3,6 +3,7 @@ package com.mercatto.dev.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.mercatto.dev.dto.UserFormDTO;
 import com.mercatto.dev.service.UsuarioService;
+
+import jakarta.validation.Valid;
 
 
 @Controller
@@ -31,16 +34,15 @@ public class AuthController {
 	}
 	
 	@PostMapping("/register")
-	public String register(@ModelAttribute("usuario") UserFormDTO dto, Model model) {
+	public String register(
+			@Valid @ModelAttribute("usuario") UserFormDTO dto,
+			BindingResult result) {
 		
-		String result = usuarioService.guardar(dto);
-		
-		if (!result.equals("ok")) {
-			model.addAttribute("error", result);
+		if(result.hasErrors()) {
 			return "auth/register";
 		}
 		
-		model.addAttribute("success", "Usuario registrado correctamente");
+		usuarioService.guardar(dto);
 		return "redirect:/auth/login";
 	}
 	

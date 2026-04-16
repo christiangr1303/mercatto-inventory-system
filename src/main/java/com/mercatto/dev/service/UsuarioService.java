@@ -7,6 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.mercatto.dev.dto.UserFormDTO;
+import com.mercatto.dev.exception.BadRequestException;
 import com.mercatto.dev.model.Usuario;
 import com.mercatto.dev.repository.UsuarioRepository;
 
@@ -22,11 +23,11 @@ public class UsuarioService {
 	public String guardar(UserFormDTO dto) {
 		
 		if (!dto.getPassword().equals(dto.getConfirmPassword())) {
-			return "Las contraseñas no coinciden";
+			throw new BadRequestException("Las contraseñas no coinciden");
 		}
 		
 		if (usuarioRepository.findByEmail(dto.getEmail()).isPresent()) {
-			return "El correo ya esta registrado";
+			throw new BadRequestException("El correo ya esta registrado");
 		}
 		
 		Usuario user = new Usuario();
