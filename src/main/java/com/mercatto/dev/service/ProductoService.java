@@ -1,5 +1,6 @@
 package com.mercatto.dev.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,7 +68,21 @@ public class ProductoService {
 		return productoRepository.findByUsuarioId(usuarioId);
 	}
 	
+	public Long contarProductos() {
+		return productoRepository.count();
+	}
 	
+	public BigDecimal calcularValorTotalInventario() {
+		return productoRepository.calcularValorTotalInventario();
+	}
+	
+	public int contarProductosSinStock() {
+		return productoRepository.countByStock(0);
+	}
+	
+	public int contarProductosBajoStock() {
+		return productoRepository.countByStockLessThanEqual(10);
+	}
 	
 	// Entity -> DTO
 	private ProductoDTO toDTO(Producto p) {

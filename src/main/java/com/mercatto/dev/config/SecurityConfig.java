@@ -30,7 +30,7 @@ public class SecurityConfig {
 		)
 		.formLogin(form -> form
 				.loginPage("/auth/login") // No uses tu login, tengo uno por defecto
-				.defaultSuccessUrl("/productos", true) // Despues de login exitoso, redirige
+				.defaultSuccessUrl("/index", true) // Despues de login exitoso, redirige
 				.permitAll()
 		)
 		.logout(logout -> logout
