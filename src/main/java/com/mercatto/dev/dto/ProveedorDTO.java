@@ -6,6 +6,7 @@ public class ProveedorDTO {
 	private String nombre;
 	private String email;
 	private String telefono;
+	private String direccion;
 	
 	public Long getId() {
 		return id;
@@ -30,6 +31,12 @@ public class ProveedorDTO {
 	}
 	public void setTelefono(String telefono) {
 		this.telefono = telefono;
+	}
+	public String getDireccion() {
+		return direccion;
+	}
+	public void setDireccion(String direccion) {
+		this.direccion = direccion;
 	}
 	
 }

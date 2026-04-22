@@ -38,14 +38,29 @@ public class ProductoService {
 		return productoRepository.findByCategoriaId(categoriaId)
 				.stream().map(this::toDTO).toList();
 	}
-
+	
+	public List<ProductoDTO> buscarPorTextoIngresado(String nombre) {
+		return productoRepository.findByNombreContainingIgnoreCase(nombre)
+				.stream().map(this::toDTO).toList();
+	}
+	
+	public List<ProductoDTO> listarProductosConStockEntre(Integer min, Integer max) {
+		if (min != null && max != null) {
+			return productoRepository.findByStockBetween(min, max)
+					.stream().map(this::toDTO).toList();
+		} else {
+			return listar();
+		}
+	}
+	
 	public ProductoDTO obtenerPorId(Long id) {
 		Producto producto = productoRepository.findById(id).orElseThrow();
 		return toDTO(producto);
 	}
 
-	public ProductoDTO guardar(ProductoFormDTO dto) {
+	public ProductoDTO crearProducto (ProductoFormDTO dto, Usuario usuario) {
 		Producto producto = toEntity(dto);
+		producto.setUsuario(usuario);
 		productoRepository.save(producto);
 		return toDTO(producto);
 	}
@@ -57,13 +72,6 @@ public class ProductoService {
 	}
 	
 	// Ultimos Metodos con usuario incluido
-	public ProductoDTO crearProducto (ProductoFormDTO dto, Usuario usuario) {
-		Producto producto = toEntity(dto);
-		producto.setUsuario(usuario);
-		productoRepository.save(producto);
-		return toDTO(producto);
-	}
-	
 	public List<Producto> listarPorUsuario(Long usuarioId) {
 		return productoRepository.findByUsuarioId(usuarioId);
 	}
@@ -83,6 +91,8 @@ public class ProductoService {
 	public int contarProductosBajoStock() {
 		return productoRepository.countByStockLessThanEqual(10);
 	}
+	
+	
 	
 	// Entity -> DTO
 	private ProductoDTO toDTO(Producto p) {

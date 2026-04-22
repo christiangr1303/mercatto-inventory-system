@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -34,6 +35,12 @@ public class CategoriaController {
 	public String guardar(@ModelAttribute CategoriaDTO dto) {
 		categoriaService.guardar(dto);
 		return "redirect:/categorias";
+	}
+	
+	@GetMapping("/editar/{id}")
+	public String editar(@PathVariable Long id, Model model) {
+		model.addAttribute("categoria", categoriaService.obtenerPorId(id));
+		return "categorias/form";
 	}
 	
 }

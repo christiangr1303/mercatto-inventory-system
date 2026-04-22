@@ -18,6 +18,8 @@ public interface ProductoRepository extends JpaRepository<Producto, Long>{
 	
 	List<Producto> findByUsuarioId(Long usuarioId);
 	
+	List<Producto> findByStockBetween(Integer min, Integer max);
+	
 	@Query("SELECT SUM(p.precio * p.stock) FROM Producto p")
 	BigDecimal calcularValorTotalInventario();
 	

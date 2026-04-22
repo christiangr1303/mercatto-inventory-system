@@ -26,6 +26,42 @@
 					<h2 class="fw-bold">Productos</h2>
 					<a th:href="@{/productos/nuevo}" class="btn btn-primary">+ Nuevo</a>
 				</div>
+				<div>
+					<form method="get" th:action="@{/productos}">
+						<div class="row g-2 align-items-center">
+							<!-- Buscador -->
+							<div class="col-md-4">
+								<input type="text" class="form-control" name="q" th:value="${param.q}"
+									placeholder="Buscar productos...">
+							</div>
+							<!-- Categoría -->
+							<div class="col-md-3">
+								<select class="form-select" name="categoria_id" onchange="this.form.submit()">
+									<option value="">Categoria</option>
+									<option th:each="c : ${categorias}" th:value="${c.id}" th:text="${c.nombre}"
+										th:selected="${c.id == categoria_id}">
+									</option>
+								</select>
+							</div>
+							<!-- Stock -->
+							<div class="col-md-3">
+								<select class="form-select" name="rangoStock" onchange="this.form.submit()">
+									<option value="">Stock</option>
+									<option value="30-100" th:selected="${param.rangoStock == '30-100'}">Alto</option>
+									<option value="10-29" th:selected="${param.rangoStock == '10-29'}">Medio</option>
+									<option value="0-9" th:selected="${param.rangoStock == '0-9'}">Bajo</option>
+								</select>
+							</div>
+							<!-- Botón -->
+							<div class="col-md-2 d-grid">
+								<button type="submit" class="btn btn-dark">
+									<i class="fa-solid fa-magnifying-glass"></i> Buscar
+								</button>
+							</div>
+						</div>
+					</form>
+				</div>
+				<br>
 				<div class="card shadow-sm">
 					<div class="card-body">
 						<div class="table-responsive">
@@ -58,11 +94,11 @@
 										<td>
 											<a th:href="@{'/productos/editar/' + ${p.id}}"
 												class="btn btn-sm btn-outline-primary">
-												Editar
+												<i class="fa-solid fa-pen-to-square"></i>
 											</a>
 											<a th:href="@{'/productos/cambiarEstado/' + ${p.id}}"
 												class="btn btn-sm btn-outline-danger">
-												Estado
+												<i class="fa-solid fa-trash-can"></i>
 											</a>
 										</td>
 									</tr>
@@ -71,7 +107,6 @@
 						</div>
 					</div>
 				</div>
-
 			</div>
 			<footer th:replace="~{plantillas/fragments :: footer}"></footer>
 		</div>
