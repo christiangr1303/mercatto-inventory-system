@@ -3,6 +3,8 @@ package com.mercatto.dev.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.mercatto.dev.dto.ProveedorDTO;
@@ -18,6 +20,10 @@ public class ProveedorService {
 	public List<ProveedorDTO> listar() {
 		return proveedorRepository.findAll()
 				.stream().map(this::toDTO).toList();
+	}
+	
+	public Page<ProveedorDTO> listar(Pageable pageable) {
+		return proveedorRepository.findAll(pageable).map(this::toDTO);
 	}
 	
 	public ProveedorDTO obtenerPorId(Long id) {

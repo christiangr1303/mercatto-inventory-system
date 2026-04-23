@@ -3,6 +3,9 @@ package com.mercatto.dev.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -43,26 +46,35 @@ public class ProductoController {
 			@RequestParam(required=false) String q,
 			@RequestParam(required=false) Long categoria_id,
 			@RequestParam(required=false) String rangoStock,
+			//Parametros para la paginacion
+			@RequestParam(defaultValue="0") int page,
+			@RequestParam(defaultValue="10") int size,
 			Model model) {
+		
+		Pageable pageable = PageRequest.of(page, size);
 		
 		model.addAttribute("categorias", categoriaService.listar());
 		
-		List<ProductoDTO> productos = null;
+		Page<ProductoDTO> productosPage;
+		
 		if (q != null && !q.isBlank()) {
-			productos = productoService.buscarPorTextoIngresado(q);
+			productosPage = productoService.buscarPorTextoIngresado(q, pageable);
 		} else if (categoria_id != null) {
-			productos = productoService.listarPorCategoria(categoria_id);
+			productosPage = productoService.listarPorCategoria(categoria_id, pageable);
 		} else if (rangoStock != null && !rangoStock.isBlank()) {
 			String[] partes = rangoStock.split("-");
 			Integer min = Integer.parseInt(partes[0]);
 			Integer max = Integer.parseInt(partes[1]);
 			
-			productos = productoService.listarProductosConStockEntre(min, max);
+			productosPage = productoService.listarProductosConStockEntre(min, max, pageable);
 		} else {
-			productos = productoService.listar();
+			productosPage = productoService.listar(pageable);
 		}
 		
-		model.addAttribute("productos", productos);
+		model.addAttribute("productos", productosPage.getContent());
+		model.addAttribute("currentPage", page);
+		model.addAttribute("totalPages", productosPage.getTotalPages());
+		
 		return "productos/lista";
 	}
 	

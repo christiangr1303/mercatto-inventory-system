@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.mercatto.dev.dto.ProductoDTO;
@@ -29,21 +31,37 @@ public class ProductoService {
 	private ProveedorRepository proveedorRepository;
 
 	
+	// Metodos CRUD
 	public List<ProductoDTO> listar() {
 		return productoRepository.findAll()
 				.stream().map(this::toDTO).toList();
 	}
+	public ProductoDTO obtenerPorId(Long id) {
+		Producto producto = productoRepository.findById(id).orElseThrow();
+		return toDTO(producto);
+	}
+	public ProductoDTO crearProducto (ProductoFormDTO dto, Usuario usuario) {
+		Producto producto = toEntity(dto);
+		producto.setUsuario(usuario);
+		productoRepository.save(producto);
+		return toDTO(producto);
+	}
+	public void cambiarEstado(Long id) {
+		Producto producto = productoRepository.findById(id).orElseThrow();
+		producto.setEstado(!producto.getEstado());
+		productoRepository.save(producto);
+	}
 	
+	
+	// Metodos que LISTAN segun CONDICIONES
 	public List<ProductoDTO> listarPorCategoria(Long categoriaId) {
 		return productoRepository.findByCategoriaId(categoriaId)
 				.stream().map(this::toDTO).toList();
-	}
-	
+	}	
 	public List<ProductoDTO> buscarPorTextoIngresado(String nombre) {
 		return productoRepository.findByNombreContainingIgnoreCase(nombre)
 				.stream().map(this::toDTO).toList();
 	}
-	
 	public List<ProductoDTO> listarProductosConStockEntre(Integer min, Integer max) {
 		if (min != null && max != null) {
 			return productoRepository.findByStockBetween(min, max)
@@ -52,48 +70,47 @@ public class ProductoService {
 			return listar();
 		}
 	}
-	
-	public ProductoDTO obtenerPorId(Long id) {
-		Producto producto = productoRepository.findById(id).orElseThrow();
-		return toDTO(producto);
-	}
-
-	public ProductoDTO crearProducto (ProductoFormDTO dto, Usuario usuario) {
-		Producto producto = toEntity(dto);
-		producto.setUsuario(usuario);
-		productoRepository.save(producto);
-		return toDTO(producto);
-	}
-	
-	public void cambiarEstado(Long id) {
-		Producto producto = productoRepository.findById(id).orElseThrow();
-		producto.setEstado(!producto.getEstado());
-		productoRepository.save(producto);
-	}
-	
-	// Ultimos Metodos con usuario incluido
 	public List<Producto> listarPorUsuario(Long usuarioId) {
 		return productoRepository.findByUsuarioId(usuarioId);
 	}
 	
+	
+	// Metodos para PAGINACION (uso del objeto Page)
+	public Page<ProductoDTO> listar(Pageable pageable) {
+		return productoRepository.findAll(pageable).map(this::toDTO);
+	}	
+	public Page<ProductoDTO> listarPorCategoria(Long categoriaId, Pageable pageable) {
+		return productoRepository.findByCategoriaId(categoriaId, pageable).map(this::toDTO);
+	}
+	public Page<ProductoDTO> listarProductosConStockEntre(Integer min, Integer max, Pageable pageable) {
+		if (min !=null && max != null) {
+			return listar(pageable);
+		} else {
+			return productoRepository.findByStockBetween(min, max, pageable).map(this::toDTO);
+		}		
+	}
+	public Page<ProductoDTO> buscarPorTextoIngresado(String nombre, Pageable pageable) {
+		return productoRepository
+				.findByNombreContainingIgnoreCase(nombre, pageable).map(this::toDTO);
+	}	
+
+	
+	// Metodos para KPIS del dashboard	
 	public Long contarProductos() {
 		return productoRepository.count();
-	}
-	
+	}	
 	public BigDecimal calcularValorTotalInventario() {
 		return productoRepository.calcularValorTotalInventario();
-	}
-	
+	}	
 	public int contarProductosSinStock() {
 		return productoRepository.countByStock(0);
 	}
-	
 	public int contarProductosBajoStock() {
 		return productoRepository.countByStockLessThanEqual(10);
 	}
 	
-	
-	
+
+	// MAPPERS	
 	// Entity -> DTO
 	private ProductoDTO toDTO(Producto p) {
 		
