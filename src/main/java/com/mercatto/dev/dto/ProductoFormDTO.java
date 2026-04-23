@@ -2,14 +2,27 @@ package com.mercatto.dev.dto;
 
 import java.math.BigDecimal;
 
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 public class ProductoFormDTO {
 	
+	@NotBlank
 	private String nombre;
+	
 	private String descripcion;
+	
+	@NotNull
 	private BigDecimal precio;
+	
+	@Min(0)
 	private int stock;
 	
+	@NotNull
 	private Long categoriaId;
+	
+	@NotNull
 	private Long proveedorId;
 	
 	public String getNombre() {

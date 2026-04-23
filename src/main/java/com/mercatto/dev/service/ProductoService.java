@@ -46,6 +46,23 @@ public class ProductoService {
 		productoRepository.save(producto);
 		return toDTO(producto);
 	}
+	public ProductoDTO actualizar(Long id, ProductoFormDTO dto) {
+		Producto p = productoRepository.findById(id).orElseThrow();
+		
+		Categoria categoria = categoriaRepository.findById(dto.getCategoriaId())
+				.orElseThrow(() -> new RuntimeException("Categoria no encontrada"));
+		
+		Proveedor proveedor = proveedorRepository.findById(dto.getProveedorId())
+				.orElseThrow(() -> new RuntimeException("Proveedor no encontrado"));
+		
+		p.setNombre(dto.getNombre());
+		p.setDescripcion(dto.getDescripcion());
+		p.setPrecio(dto.getPrecio());
+		p.setCategoria(categoria);
+		p.setProveedor(proveedor);
+		
+		return toDTO(productoRepository.save(p));
+	}
 	public void cambiarEstado(Long id) {
 		Producto producto = productoRepository.findById(id).orElseThrow();
 		producto.setEstado(!producto.getEstado());
@@ -70,8 +87,9 @@ public class ProductoService {
 			return listar();
 		}
 	}
-	public List<Producto> listarPorUsuario(Long usuarioId) {
-		return productoRepository.findByUsuarioId(usuarioId);
+	public List<ProductoDTO> listarPorUsuario(Long usuarioId) {
+		return productoRepository.findByUsuarioId(usuarioId)
+				.stream().map(this::toDTO).toList();
 	}
 	
 	
@@ -84,9 +102,9 @@ public class ProductoService {
 	}
 	public Page<ProductoDTO> listarProductosConStockEntre(Integer min, Integer max, Pageable pageable) {
 		if (min !=null && max != null) {
-			return listar(pageable);
-		} else {
 			return productoRepository.findByStockBetween(min, max, pageable).map(this::toDTO);
+		} else {
+			return listar(pageable);
 		}		
 	}
 	public Page<ProductoDTO> buscarPorTextoIngresado(String nombre, Pageable pageable) {
@@ -122,16 +140,8 @@ public class ProductoService {
 		dto.setPrecio(p.getPrecio());
 		dto.setStock(p.getStock());
 		dto.setEstado(p.getEstado());
-		
-		if (p.getCategoria() != null) {
-			dto.setCategoriaId(p.getCategoria().getId());
-			dto.setCategoriaNombre(p.getCategoria().getNombre());
-		}
-		
-		if (p.getProveedor() != null) {
-			dto.setProveedorId(p.getProveedor().getId());
-			dto.setProveedorNombre(p.getProveedor().getNombre());
-		}
+		dto.setCategoriaNombre(p.getCategoria().getNombre());
+		dto.setProveedorNombre(p.getProveedor().getNombre());
 		
 		return dto;
 	}
@@ -140,23 +150,18 @@ public class ProductoService {
 	private Producto toEntity(ProductoFormDTO dto) {
 		
 		Producto p = new Producto();
+		Categoria categoria = categoriaRepository.findById(dto.getCategoriaId())
+				.orElseThrow(() -> new RuntimeException("Categoria no encontrada"));
+		
+		Proveedor proveedor = proveedorRepository.findById(dto.getProveedorId())
+				.orElseThrow(() -> new RuntimeException("Proveedor no encontrado"));
 		
 		p.setNombre(dto.getNombre());
 		p.setDescripcion(dto.getDescripcion());
 		p.setPrecio(dto.getPrecio());
-		p.setStock(dto.getStock());
-		
-		if (dto.getCategoriaId() != null) {
-			Categoria categoria = 
-					categoriaRepository.findById(dto.getCategoriaId()).orElseThrow();
-			p.setCategoria(categoria);	
-		}
-		
-		if (dto.getProveedorId() != null) {
-			Proveedor proveedor = 
-					proveedorRepository.findById(dto.getProveedorId()).orElseThrow();
-			p.setProveedor(proveedor);
-		}
+		p.setStock(dto.getStock() != 0 ? dto.getStock() : 0);
+		p.setCategoria(categoria);
+		p.setProveedor(proveedor);
 		
 		return p;
 	}

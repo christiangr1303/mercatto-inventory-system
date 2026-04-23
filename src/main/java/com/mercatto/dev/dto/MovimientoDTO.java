@@ -2,27 +2,28 @@ package com.mercatto.dev.dto;
 
 import java.time.LocalDateTime;
 
+import com.mercatto.dev.model.TipoMovimiento;
+
 public class MovimientoDTO {
 	
 	private Long id;
-	private String tipo;
+	private TipoMovimiento tipo;	
 	private int cantidad;
 	private LocalDateTime fecha;
 	private String motivo;
-	
-	private Long productoId;
 	private String productoNombre;
 	
+	// Getters y Setters
 	public Long getId() {
 		return id;
 	}
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public String getTipo() {
+	public TipoMovimiento getTipo() {
 		return tipo;
 	}
-	public void setTipo(String tipo) {
+	public void setTipo(TipoMovimiento tipo) {
 		this.tipo = tipo;
 	}
 	public int getCantidad() {
@@ -42,12 +43,6 @@ public class MovimientoDTO {
 	}
 	public void setMotivo(String motivo) {
 		this.motivo = motivo;
-	}
-	public Long getProductoId() {
-		return productoId;
-	}
-	public void setProductoId(Long productoId) {
-		this.productoId = productoId;
 	}
 	public String getProductoNombre() {
 		return productoNombre;

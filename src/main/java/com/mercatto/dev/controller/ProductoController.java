@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.mercatto.dev.dto.ProductoDTO;
 import com.mercatto.dev.dto.ProductoFormDTO;
-import com.mercatto.dev.model.Producto;
 import com.mercatto.dev.model.Usuario;
 import com.mercatto.dev.security.UsuarioDetails;
 import com.mercatto.dev.service.CategoriaService;
@@ -115,7 +114,7 @@ public class ProductoController {
 	// Agregados recientemente
 	public String listarProductos(Model model, HttpSession session) {
 		Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
-		List<Producto> productos = productoService.listarPorUsuario(usuario.getId());
+		List<ProductoDTO> productos = productoService.listarPorUsuario(usuario.getId());
 		model.addAttribute("productos", productos);
 		return "productos/lista";
 	}

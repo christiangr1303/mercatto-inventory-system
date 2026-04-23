@@ -15,7 +15,11 @@ public class GlobalExceptionHandler {
 	
 	@ExceptionHandler(Exception.class)
 	public String handleGeneral(Exception ex, Model model) {
-		model.addAttribute("error", "Ocurrio un error inesperado");
+		
+		ex.printStackTrace();
+		
+		model.addAttribute("error", ex.getMessage());
+		//model.addAttribute("error", "Ocurrio un error inesperado");
 		return "error";
 	}
 	

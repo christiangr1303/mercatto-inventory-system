@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<meta name="description" content="" />
+	<meta name="author" content="" />
+	<title>Sistema de inventario</title>
+	<link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+	<link th:href="@{/css/styles.css}" rel="stylesheet" />
+	<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+	<script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+
+	<nav th:replace="~{/plantillas/fragments :: navbar}"></nav>
+	<div id="layoutSidenav">
+		<div th:replace="~{/plantillas/fragments :: menuLateral}"></div>
+		<div id="layoutSidenav_content">
+
+			<div class="container mt-4">
+				<div class="d-flex justify-content-between align-items-center mb-3">
+					<h2 class="fw-bold">Movimientos</h2>
+				</div>
+				<div>
+					<!--
+					<form method="get" th:action="@{/movimientos}">
+						<div class="row g-3 align-items-center">
+							<-- Desde --
+							<div class="col-md-3">
+								<label class="label-form">Desde: </label>
+								<input type="date" name="desde" class="form-control" th:value="${param.desde}">
+							</div>
+							<-- Hasta --
+							<div class="col-md-3">
+								<label class="label-form">Hasta: </label>
+								<input type="date" name="hasta" class="form-control" th:value="${param.hasta}">
+							</div>
+							<-- Tipo --
+							<div class="col-md-3">
+								<label class="form-label">Tipo: </label>
+								<select class="form-select" name="tipo">
+									<option value="">Todos</option>
+									<option value="ENTRADA" th:selected="${param.tipo == 'ENTRADA'}">Entrada</option>
+									<option value="SALIDA" th:selected="${param.tipo == 'SALIDA'}">Salida</option>
+								</select>
+							</div>
+							<-- Botón --
+							<div class="col-md-2 d-grid">
+								<button type="submit" class="btn btn-dark">
+									<i class="fa-solid fa-magnifying-glass"></i> Filtrar
+								</button>
+							</div>
+						</div>
+					</form>
+					-->
+				</div>
+				<br>
+				<div class="card shadow-sm">
+					<div class="card-body">
+						<div class="table-responsive">
+							<table class="table table-bordered table-hover text-center align-middle">
+								<thead class="table-light">
+									<tr>
+										<th>Fecha</th>
+										<th>Producto</th>
+										<th>Tipo</th>
+										<th>Cantidad</th>
+										<th>Motivo</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="m : ${movimientos}">
+										<td th:text="${m.fecha}"></td>
+										<td th:text="${m.productoNombre}"></td>
+										<td th:text="${m.tipo}"></td>
+										<td th:text="${m.cantidad}"></td>
+										<td th:text="${m.motivo}"></td>
+										<!--
+										<td>
+											<span class="badge" th:text="${p.estado ? 'Activo' : 'Inactivo'}"
+												th:classappend="${p.estado} ? ' bg-success' : ' bg-danger'">
+											</span>
+										</td>
+										<td>
+											<a th:href="@{'/productos/editar/' + ${p.id}}"
+												class="btn btn-sm btn-outline-primary">
+												<i class="fa-solid fa-pen-to-square"></i>
+											</a>
+											<a th:href="@{'/productos/cambiarEstado/' + ${p.id}}"
+												class="btn btn-sm btn-outline-danger">
+												<i class="fa-solid fa-trash-can"></i>
+											</a>
+										</td>
+										-->
+									</tr>
+								</tbody>
+							</table>
+							<!---
+							<nav>
+								<ul class="pagination">
+									<li class="page-item" 
+										th:classappend="${currentPage == 0} ? 'disabled'">
+										<a class="page-link" 
+											th:href="@{/productos(page=${currentPage - 1},
+														q=${param.q}, categoria_id=${param.categoria_id}, 
+														rangoStock=${param.rangoStock})}">
+											Anterior
+										</a>
+									</li>
+									<li class="page-item"
+										th:each="i : ${#numbers.sequence(0, totalPages -1)}"
+										th:classappend="${i == currentPage} ? 'active'">
+										<a class="page-link" 
+											th:href="@{/productos(page=${i},
+														q=${param.q}, categoria_id=${param.categoria_id}, 
+														rangoStock=${param.rangoStock})}" 
+											th:text="${i + 1}">
+										</a>
+									</li>
+									<li class="page-item"
+										th:classappend="${currentPage == totalPages - 1} ? 'disabled'">
+										<a class="page-link" 
+											th:href="@{/productos(page=${currentPage + 1},
+														q=${param.q}, categoria_id=${param.categoria_id}, 
+														rangoStock=${param.rangoStock})}">
+											Siguiente
+										</a>
+									</li>
+								</ul>
+							</nav>
+							-->
+						</div>
+					</div>
+				</div>
+			</div>
+			<footer th:replace="~{plantillas/fragments :: footer}"></footer>
+		</div>
+	</div>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+		crossorigin="anonymous"></script>
+	<script th:src="@{/js/scripts.js}"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+	<script src="assets/demo/chart-area-demo.js"></script>
+	<script src="assets/demo/chart-bar-demo.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
+		crossorigin="anonymous"></script>
+	<script src="js/datatables-simple-demo.js"></script>
+</body>
+
+</html>

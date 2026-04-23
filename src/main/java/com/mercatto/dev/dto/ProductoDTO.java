@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 public class ProductoDTO {
 	
+
 	private Long id;
 	private String nombre;
 	private String descripcion;
@@ -11,12 +12,10 @@ public class ProductoDTO {
 	private int stock;
 	private Boolean estado;
 	
-	private Long categoriaId;
+	//private Long categoriaId;
 	private String categoriaNombre;
-	
-	private Long proveedorId;
+	//private Long proveedorId;
 	private String proveedorNombre;
-	
 	
 	public Long getId() {
 		return id;
@@ -54,24 +53,28 @@ public class ProductoDTO {
 	public void setEstado(Boolean estado) {
 		this.estado = estado;
 	}
+	/*
 	public Long getCategoriaId() {
 		return categoriaId;
 	}
 	public void setCategoriaId(Long categoriaId) {
 		this.categoriaId = categoriaId;
 	}
+	*/
 	public String getCategoriaNombre() {
 		return categoriaNombre;
 	}
 	public void setCategoriaNombre(String categoriaNombre) {
 		this.categoriaNombre = categoriaNombre;
 	}
+	/*
 	public Long getProveedorId() {
 		return proveedorId;
 	}
 	public void setProveedorId(Long proveedorId) {
 		this.proveedorId = proveedorId;
 	}
+	*/
 	public String getProveedorNombre() {
 		return proveedorNombre;
 	}

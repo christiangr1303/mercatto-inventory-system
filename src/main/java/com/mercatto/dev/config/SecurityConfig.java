@@ -26,6 +26,7 @@ public class SecurityConfig {
 		.authorizeHttpRequests(auth -> auth
 				.requestMatchers("/auth/**", "/css/**").permitAll()
 				.requestMatchers("/auth/**", "/error/**").permitAll()
+				.requestMatchers("/api/movimientos/**").permitAll()
 				.anyRequest().authenticated() // Todo lo demas requiere autenticacion
 		)
 		.formLogin(form -> form

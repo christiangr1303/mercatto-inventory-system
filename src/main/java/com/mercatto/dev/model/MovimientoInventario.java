@@ -2,7 +2,10 @@ package com.mercatto.dev.model;
 
 import java.time.LocalDateTime;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -16,19 +19,24 @@ public class MovimientoInventario {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	
+	@Enumerated(EnumType.STRING)
+	@Column(nullable=false)
 	private TipoMovimiento tipo;
 	
+	@Column(nullable=false)
 	private int cantidad;
 	
+	@Column(nullable=false)
 	private LocalDateTime fecha;
 	
+	@Column(nullable=false)
 	private String motivo;
 	
 	@ManyToOne
 	@JoinColumn(name="producto_id", nullable=false)
 	private Producto producto;
 	
-	
+	// Constructores
 	public MovimientoInventario() {
 		super();
 	}
@@ -42,7 +50,8 @@ public class MovimientoInventario {
 		this.motivo = motivo;
 		this.producto = producto;
 	}
-
+	
+	// Getters y Setters
 	public Long getId() {
 		return id;
 	}

@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -34,8 +33,10 @@ public class Producto {
 	@Column(nullable=false)
 	private int stock;
 	
+	@Column(nullable=false)
 	private Boolean estado = true;
 	
+	@Column(nullable=false)
 	private LocalDateTime fechaCreacion = LocalDateTime.now();
 	
 	@ManyToOne
@@ -46,13 +47,14 @@ public class Producto {
 	@JoinColumn(name="proveedor_id")
 	private Proveedor proveedor;
 	
-	@OneToMany(mappedBy="producto", cascade=CascadeType.ALL)
-	private List<MovimientoInventario> movimiento;
-	
 	@ManyToOne
 	@JoinColumn(name="usuario_id")
 	private Usuario usuario;
-
+	
+	@OneToMany(mappedBy="producto")
+	private List<MovimientoInventario> movimiento;
+	
+	
 	public Producto() {
 		super();
 	}
