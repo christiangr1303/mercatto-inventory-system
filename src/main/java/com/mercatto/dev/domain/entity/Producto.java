@@ -1,4 +1,4 @@
-package com.mercatto.dev.model;
+package com.mercatto.dev.domain.entity;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -77,87 +77,66 @@ public class Producto {
 	public Long getId() {
 		return id;
 	}
-
 	public void setId(Long id) {
 		this.id = id;
 	}
-
 	public String getNombre() {
 		return nombre;
 	}
-
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-
 	public String getDescripcion() {
 		return descripcion;
 	}
-
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
-
 	public BigDecimal getPrecio() {
 		return precio;
 	}
-
 	public void setPrecio(BigDecimal precio) {
 		this.precio = precio;
 	}
-
 	public int getStock() {
 		return stock;
 	}
-
 	public void setStock(int stock) {
 		this.stock = stock;
 	}
-
 	public Boolean getEstado() {
 		return estado;
 	}
-
 	public void setEstado(Boolean estado) {
 		this.estado = estado;
 	}
-
 	public LocalDateTime getFechaCreacion() {
 		return fechaCreacion;
 	}
-
 	public void setFechaCreacion(LocalDateTime fechaCreacion) {
 		this.fechaCreacion = fechaCreacion;
 	}
-
 	public Categoria getCategoria() {
 		return categoria;
 	}
-
 	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
 	}
-
 	public Proveedor getProveedor() {
 		return proveedor;
 	}
-
 	public void setProveedor(Proveedor proveedor) {
 		this.proveedor = proveedor;
 	}
-
 	public List<MovimientoInventario> getMovimiento() {
 		return movimiento;
 	}
-
 	public void setMovimiento(List<MovimientoInventario> movimiento) {
 		this.movimiento = movimiento;
 	}
-
 	public Usuario getUsuario() {
 		return usuario;
 	}
-
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}

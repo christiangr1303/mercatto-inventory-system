@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.mercatto.dev.dto.UserFormDTO;
+import com.mercatto.dev.dto.request.SignUpRequestDTO;
 import com.mercatto.dev.service.UsuarioService;
 
 import jakarta.validation.Valid;
@@ -29,13 +29,13 @@ public class AuthController {
 	
 	@GetMapping("/register")
 	public String mostrarRegistro(Model model) {
-		model.addAttribute("usuario", new UserFormDTO());
+		model.addAttribute("usuario", new SignUpRequestDTO());
 		return "auth/register";
 	}
 	
 	@PostMapping("/register")
 	public String register(
-			@Valid @ModelAttribute("usuario") UserFormDTO dto,
+			@Valid @ModelAttribute("usuario") SignUpRequestDTO dto,
 			BindingResult result) {
 		
 		if(result.hasErrors()) {

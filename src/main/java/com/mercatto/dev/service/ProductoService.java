@@ -1,6 +1,5 @@
 package com.mercatto.dev.service;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,12 +7,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.mercatto.dev.dto.ProductoDTO;
-import com.mercatto.dev.dto.ProductoFormDTO;
-import com.mercatto.dev.model.Categoria;
-import com.mercatto.dev.model.Producto;
-import com.mercatto.dev.model.Proveedor;
-import com.mercatto.dev.model.Usuario;
+import com.mercatto.dev.domain.entity.Categoria;
+import com.mercatto.dev.domain.entity.Producto;
+import com.mercatto.dev.domain.entity.Proveedor;
+import com.mercatto.dev.domain.entity.Usuario;
+import com.mercatto.dev.dto.request.ProductoRequestDTO;
+import com.mercatto.dev.dto.response.ProductoResponseDTO;
+import com.mercatto.dev.mappers.ProductoMapper;
 import com.mercatto.dev.repository.CategoriaRepository;
 import com.mercatto.dev.repository.ProductoRepository;
 import com.mercatto.dev.repository.ProveedorRepository;
@@ -29,24 +29,27 @@ public class ProductoService {
 
 	@Autowired
 	private ProveedorRepository proveedorRepository;
+	
+	@Autowired
+	private ProductoMapper productoMapper;
 
 	
 	// Metodos CRUD
-	public List<ProductoDTO> listar() {
-		return productoRepository.findAll()
-				.stream().map(this::toDTO).toList();
+	public List<ProductoResponseDTO> listar() {
+		List<Producto> productos = productoRepository.findAll();
+		return productoMapper.toResponseDTOList(productos);
 	}
-	public ProductoDTO obtenerPorId(Long id) {
+	public ProductoResponseDTO obtenerPorId(Long id) {
 		Producto producto = productoRepository.findById(id).orElseThrow();
-		return toDTO(producto);
+		return productoMapper.toResponseDTO(producto);
 	}
-	public ProductoDTO crearProducto (ProductoFormDTO dto, Usuario usuario) {
-		Producto producto = toEntity(dto);
+	public ProductoResponseDTO crearProducto (ProductoRequestDTO dto, Usuario usuario) {
+		Producto producto = productoMapper.toEntity(dto);
 		producto.setUsuario(usuario);
 		productoRepository.save(producto);
-		return toDTO(producto);
+		return productoMapper.toResponseDTO(producto);
 	}
-	public ProductoDTO actualizar(Long id, ProductoFormDTO dto) {
+	public ProductoResponseDTO actualizar(Long id, ProductoRequestDTO dto) {
 		Producto p = productoRepository.findById(id).orElseThrow();
 		
 		Categoria categoria = categoriaRepository.findById(dto.getCategoriaId())
@@ -61,7 +64,7 @@ public class ProductoService {
 		p.setCategoria(categoria);
 		p.setProveedor(proveedor);
 		
-		return toDTO(productoRepository.save(p));
+		return productoMapper.toResponseDTO(productoRepository.save(p));
 	}
 	public void cambiarEstado(Long id) {
 		Producto producto = productoRepository.findById(id).orElseThrow();
@@ -71,99 +74,51 @@ public class ProductoService {
 	
 	
 	// Metodos que LISTAN segun CONDICIONES
-	public List<ProductoDTO> listarPorCategoria(Long categoriaId) {
-		return productoRepository.findByCategoriaId(categoriaId)
-				.stream().map(this::toDTO).toList();
+	public List<ProductoResponseDTO> listarPorCategoria(Long categoriaId) {
+		List<Producto> productos = productoRepository.findByCategoriaId(categoriaId);
+		return productoMapper.toResponseDTOList(productos);
 	}	
-	public List<ProductoDTO> buscarPorTextoIngresado(String nombre) {
-		return productoRepository.findByNombreContainingIgnoreCase(nombre)
-				.stream().map(this::toDTO).toList();
+	public List<ProductoResponseDTO> buscarPorTextoIngresado(String nombre) {
+		List<Producto> productos = productoRepository.findByNombreContainingIgnoreCase(nombre);
+		return productoMapper.toResponseDTOList(productos);
 	}
-	public List<ProductoDTO> listarProductosConStockEntre(Integer min, Integer max) {
+	public List<ProductoResponseDTO> listarProductosConStockEntre(Integer min, Integer max) {
 		if (min != null && max != null) {
-			return productoRepository.findByStockBetween(min, max)
-					.stream().map(this::toDTO).toList();
+			List<Producto> productos = productoRepository.findByStockBetween(min, max);
+			return productoMapper.toResponseDTOList(productos);
 		} else {
 			return listar();
 		}
 	}
-	public List<ProductoDTO> listarPorUsuario(Long usuarioId) {
-		return productoRepository.findByUsuarioId(usuarioId)
-				.stream().map(this::toDTO).toList();
+	public List<ProductoResponseDTO> listarPorUsuario(Long usuarioId) {
+		List<Producto> productos = productoRepository.findByUsuarioId(usuarioId);
+		return productoMapper.toResponseDTOList(productos);
 	}
 	
 	
 	// Metodos para PAGINACION (uso del objeto Page)
-	public Page<ProductoDTO> listar(Pageable pageable) {
-		return productoRepository.findAll(pageable).map(this::toDTO);
-	}	
-	public Page<ProductoDTO> listarPorCategoria(Long categoriaId, Pageable pageable) {
-		return productoRepository.findByCategoriaId(categoriaId, pageable).map(this::toDTO);
+	public Page<ProductoResponseDTO> listar(Pageable pageable) {
+		Page<Producto> productos = productoRepository.findAll(pageable);
+		return productos.map(productoMapper::toResponseDTO);
 	}
-	public Page<ProductoDTO> listarProductosConStockEntre(Integer min, Integer max, Pageable pageable) {
+	public Page<ProductoResponseDTO> listarPorCategoria(Long categoriaId, Pageable pageable) {
+		Page<Producto> productos = productoRepository.findByCategoriaId(categoriaId, pageable);
+		return productos.map(productoMapper::toResponseDTO);
+	}
+	public Page<ProductoResponseDTO> listarProductosConStockEntre(Integer min, Integer max, Pageable pageable) {
 		if (min !=null && max != null) {
-			return productoRepository.findByStockBetween(min, max, pageable).map(this::toDTO);
+			Page<Producto> productos = productoRepository.findByStockBetween(min, max, pageable);
+			return productos.map(productoMapper::toResponseDTO);
 		} else {
 			return listar(pageable);
 		}		
 	}
-	public Page<ProductoDTO> buscarPorTextoIngresado(String nombre, Pageable pageable) {
-		return productoRepository
-				.findByNombreContainingIgnoreCase(nombre, pageable).map(this::toDTO);
+	public Page<ProductoResponseDTO> buscarPorTextoIngresado(String nombre, Pageable pageable) {
+		Page<Producto> productos = productoRepository.findByNombreContainingIgnoreCase(nombre, pageable);
+		return productos.map(productoMapper::toResponseDTO);
 	}	
 
 	
-	// Metodos para KPIS del dashboard	
-	public Long contarProductos() {
-		return productoRepository.count();
-	}	
-	public BigDecimal calcularValorTotalInventario() {
-		return productoRepository.calcularValorTotalInventario();
-	}	
-	public int contarProductosSinStock() {
-		return productoRepository.countByStock(0);
-	}
-	public int contarProductosBajoStock() {
-		return productoRepository.countByStockLessThanEqual(10);
-	}
-	
 
-	// MAPPERS	
-	// Entity -> DTO
-	private ProductoDTO toDTO(Producto p) {
-		
-		ProductoDTO dto = new ProductoDTO();
-		
-		dto.setId(p.getId());
-		dto.setNombre(p.getNombre());
-		dto.setDescripcion(p.getDescripcion());
-		dto.setPrecio(p.getPrecio());
-		dto.setStock(p.getStock());
-		dto.setEstado(p.getEstado());
-		dto.setCategoriaNombre(p.getCategoria().getNombre());
-		dto.setProveedorNombre(p.getProveedor().getNombre());
-		
-		return dto;
-	}
-	
-	// DTO -> Entity
-	private Producto toEntity(ProductoFormDTO dto) {
-		
-		Producto p = new Producto();
-		Categoria categoria = categoriaRepository.findById(dto.getCategoriaId())
-				.orElseThrow(() -> new RuntimeException("Categoria no encontrada"));
-		
-		Proveedor proveedor = proveedorRepository.findById(dto.getProveedorId())
-				.orElseThrow(() -> new RuntimeException("Proveedor no encontrado"));
-		
-		p.setNombre(dto.getNombre());
-		p.setDescripcion(dto.getDescripcion());
-		p.setPrecio(dto.getPrecio());
-		p.setStock(dto.getStock() != 0 ? dto.getStock() : 0);
-		p.setCategoria(categoria);
-		p.setProveedor(proveedor);
-		
-		return p;
-	}
 	
 }

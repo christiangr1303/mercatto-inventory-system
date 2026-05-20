@@ -1,10 +1,16 @@
-package com.mercatto.dev.dto;
+package com.mercatto.dev.dto.request;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-public class UserFormDTO {
+public class SignUpRequestDTO {
+	
+	@NotBlank
+	private String firstName;
+	
+	@NotBlank
+	private String lastName;
 	
 	@NotBlank(message="El email es obligatorio")
 	@Email(message="Formato de email invalido")

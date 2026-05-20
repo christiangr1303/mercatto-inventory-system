@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.mercatto.dev.dto.ProductoDTO;
-import com.mercatto.dev.dto.ProductoFormDTO;
-import com.mercatto.dev.model.Usuario;
+import com.mercatto.dev.domain.entity.Usuario;
+import com.mercatto.dev.dto.request.ProductoRequestDTO;
+import com.mercatto.dev.dto.response.ProductoResponseDTO;
 import com.mercatto.dev.security.UsuarioDetails;
 import com.mercatto.dev.service.CategoriaService;
 import com.mercatto.dev.service.ProductoService;
@@ -54,7 +54,7 @@ public class ProductoController {
 		
 		model.addAttribute("categorias", categoriaService.listar());
 		
-		Page<ProductoDTO> productosPage;
+		Page<ProductoResponseDTO> productosPage;
 		
 		if (q != null && !q.isBlank()) {
 			productosPage = productoService.buscarPorTextoIngresado(q, pageable);
@@ -79,7 +79,7 @@ public class ProductoController {
 	
 	@GetMapping("/nuevo")
 	public String mostrarFormulario(Model model) {
-		model.addAttribute("producto", new ProductoFormDTO());
+		model.addAttribute("producto", new ProductoRequestDTO());
 		model.addAttribute("categorias", categoriaService.listar());
 		model.addAttribute("proveedores", proveedorService.listar());
 		return "productos/form";
@@ -94,7 +94,7 @@ public class ProductoController {
 	}
 	
 	@PostMapping("/guardar")
-	public String guardarProducto(@ModelAttribute ProductoFormDTO dto) {
+	public String guardarProducto(@ModelAttribute ProductoRequestDTO dto) {
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		UsuarioDetails userDetails = (UsuarioDetails) auth.getPrincipal();
@@ -114,7 +114,7 @@ public class ProductoController {
 	// Agregados recientemente
 	public String listarProductos(Model model, HttpSession session) {
 		Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
-		List<ProductoDTO> productos = productoService.listarPorUsuario(usuario.getId());
+		List<ProductoResponseDTO> productos = productoService.listarPorUsuario(usuario.getId());
 		model.addAttribute("productos", productos);
 		return "productos/lista";
 	}

@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.mercatto.dev.model.Usuario;
+import com.mercatto.dev.domain.entity.Usuario;
 import com.mercatto.dev.repository.UsuarioRepository;
 import com.mercatto.dev.security.UsuarioDetails;
 

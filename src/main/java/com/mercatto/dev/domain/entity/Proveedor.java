@@ -1,4 +1,4 @@
-package com.mercatto.dev.model;
+package com.mercatto.dev.domain.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

@@ -1,20 +1,17 @@
-package com.mercatto.dev.dto;
+package com.mercatto.dev.dto.response;
 
 import java.math.BigDecimal;
 
-public class ProductoDTO {
+public class ProductoResponseDTO {
 	
 
 	private Long id;
 	private String nombre;
-	private String descripcion;
 	private BigDecimal precio;
 	private int stock;
 	private Boolean estado;
 	
-	//private Long categoriaId;
 	private String categoriaNombre;
-	//private Long proveedorId;
 	private String proveedorNombre;
 	
 	public Long getId() {
@@ -28,12 +25,6 @@ public class ProductoDTO {
 	}
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
-	}
-	public String getDescripcion() {
-		return descripcion;
-	}
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
 	}
 	public BigDecimal getPrecio() {
 		return precio;
@@ -53,28 +44,12 @@ public class ProductoDTO {
 	public void setEstado(Boolean estado) {
 		this.estado = estado;
 	}
-	/*
-	public Long getCategoriaId() {
-		return categoriaId;
-	}
-	public void setCategoriaId(Long categoriaId) {
-		this.categoriaId = categoriaId;
-	}
-	*/
 	public String getCategoriaNombre() {
 		return categoriaNombre;
 	}
 	public void setCategoriaNombre(String categoriaNombre) {
 		this.categoriaNombre = categoriaNombre;
 	}
-	/*
-	public Long getProveedorId() {
-		return proveedorId;
-	}
-	public void setProveedorId(Long proveedorId) {
-		this.proveedorId = proveedorId;
-	}
-	*/
 	public String getProveedorNombre() {
 		return proveedorNombre;
 	}

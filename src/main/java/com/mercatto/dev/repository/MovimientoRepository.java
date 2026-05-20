@@ -8,8 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.mercatto.dev.model.MovimientoInventario;
-import com.mercatto.dev.model.TipoMovimiento;
+import com.mercatto.dev.domain.entity.MovimientoInventario;
+import com.mercatto.dev.domain.enums.TipoMovimiento;
 
 @Repository
 public interface MovimientoRepository extends JpaRepository<MovimientoInventario, Long>{
@@ -27,4 +27,9 @@ public interface MovimientoRepository extends JpaRepository<MovimientoInventario
 			@Param("tipo") TipoMovimiento tipo,
 			@Param("desde") LocalDateTime desde,
 			@Param("hasta") LocalDateTime hasta);
+	
+	
+	//@Procedure(procedureName = "obtener_valorizado_mensual")
+	@Query(value="CALL obtener_valorizado_mensual()", nativeQuery=true)
+	List<Object[]> obtenerValorizadoMensual();
 }

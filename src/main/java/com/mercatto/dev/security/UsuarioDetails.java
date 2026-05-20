@@ -8,7 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.mercatto.dev.model.Usuario;
+import com.mercatto.dev.domain.entity.Usuario;
 
 public class UsuarioDetails implements UserDetails {
 	

@@ -1,6 +1,6 @@
-package com.mercatto.dev.dto;
+package com.mercatto.dev.dto.response;
 
-public class CategoriaDTO {
+public class CategoriaResponseDTO {
 	
 	private Long id;
 	private String nombre;

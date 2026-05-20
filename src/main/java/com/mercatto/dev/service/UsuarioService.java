@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.mercatto.dev.dto.UserFormDTO;
+import com.mercatto.dev.domain.entity.Usuario;
+import com.mercatto.dev.dto.request.SignUpRequestDTO;
 import com.mercatto.dev.exception.BadRequestException;
-import com.mercatto.dev.model.Usuario;
 import com.mercatto.dev.repository.UsuarioRepository;
 
 @Service
@@ -20,7 +20,7 @@ public class UsuarioService {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
-	public String guardar(UserFormDTO dto) {
+	public String guardar(SignUpRequestDTO dto) {
 		
 		if (!dto.getPassword().equals(dto.getConfirmPassword())) {
 			throw new BadRequestException("Las contraseñas no coinciden");

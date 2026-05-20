@@ -32,7 +32,7 @@
 						<div class="card bg-primary text-white mb-4">
 							<div class="card-body">
 								<small class="text-uppercase fw-light">Total Productos</small>
-								<h2 class="display-5 fw-bold">1,250</h2>
+								<h2 th:text="${totalProductos}" class="display-5 fw-bold"></h2>
 							</div>
 							<div class="card-footer d-flex align-items-center justify-content-between">
 								<a class="small text-white stretched-link" href="#">Ver detalles</a>
@@ -45,7 +45,8 @@
 						<div class="card bg-success text-white mb-4">
 							<div class="card-body">
 								<small class="text-uppercase fw-light">Valor Total</small>
-								<h2 class="display-5 fw-bold">$45.2k</h2>
+								<h2 th:text="${'S/. ' + #numbers.formatDecimal(valorInventario/1000, 1, 1) + ' K'}"
+								 class="display-5 fw-bold"></h2>
 							</div>
 							<div class="card-footer d-flex align-items-center justify-content-between">
 								<a class="small text-white stretched-link" href="#">Ver reporte</a>
@@ -87,7 +88,7 @@
 						<div class="card mb-4">
 							<div class="card-header">
 								<i class="fas fa-chart-area me-1"></i>
-								Area Chart Example
+								Balance Monetario Neto de Movimientos
 							</div>
 							<div class="card-body"><canvas id="myAreaChart" width="100%" height="40"></canvas></div>
 						</div>
@@ -96,7 +97,7 @@
 						<div class="card mb-4">
 							<div class="card-header">
 								<i class="fas fa-chart-bar me-1"></i>
-								Bar Chart Example
+								Total Productos por Categoria
 							</div>
 							<div class="card-body"><canvas id="myBarChart" width="100%" height="40"></canvas></div>
 						</div>
@@ -114,8 +115,8 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
 
 	<script th:inline="javascript">
-		var misDatosDeInventario = [[${datosGrafico}]];
-		var misEtiquetasDeInventario = [[${etiquetasGrafico}]];
+		var misDatosDeInventario = [[${datosStock}]];
+		var misEtiquetasDeInventario = [[${etiquetasMeses}]];
 
 		var etiquetasCategorias = [[${labelsCategorias}]];
 		var valoresCategorias = [[${datosCategorias}]];

@@ -1,10 +1,10 @@
-package com.mercatto.dev.dto;
+package com.mercatto.dev.dto.response;
 
 import java.time.LocalDateTime;
 
-import com.mercatto.dev.model.TipoMovimiento;
+import com.mercatto.dev.domain.enums.TipoMovimiento;
 
-public class MovimientoDTO {
+public class MovimientoResponseDTO {
 	
 	private Long id;
 	private TipoMovimiento tipo;	

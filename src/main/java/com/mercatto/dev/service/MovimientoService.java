@@ -6,11 +6,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.mercatto.dev.dto.MovimientoDTO;
-import com.mercatto.dev.dto.MovimientoFormDTO;
-import com.mercatto.dev.model.MovimientoInventario;
-import com.mercatto.dev.model.Producto;
-import com.mercatto.dev.model.TipoMovimiento;
+import com.mercatto.dev.domain.entity.MovimientoInventario;
+import com.mercatto.dev.domain.entity.Producto;
+import com.mercatto.dev.domain.enums.TipoMovimiento;
+import com.mercatto.dev.dto.request.MovimientoRequestDTO;
+import com.mercatto.dev.dto.response.MovimientoResponseDTO;
 import com.mercatto.dev.repository.MovimientoRepository;
 import com.mercatto.dev.repository.ProductoRepository;
 
@@ -25,11 +25,11 @@ public class MovimientoService {
 	@Autowired
 	private MovimientoRepository movimientoRepository;
 	
-	public List<MovimientoDTO> listar() {
+	public List<MovimientoResponseDTO> listar() {
 		return movimientoRepository.findAll().stream().map(this::toDTO).toList();
 	}
 	
-	public List<MovimientoDTO> listarConFiltros(
+	public List<MovimientoResponseDTO> listarConFiltros(
 			TipoMovimiento tipo,
 			LocalDateTime desde, 
 			LocalDateTime hasta) {
@@ -38,7 +38,7 @@ public class MovimientoService {
 	}
 	
 	@Transactional
-	public void registrarMovimiento(MovimientoFormDTO dto) {
+	public void registrarMovimiento(MovimientoRequestDTO dto) {
 		
 		Producto producto = productoRepository.findById(dto.getProductoId())
 				.orElseThrow(() -> new RuntimeException("Producto no encontrado"));
@@ -63,7 +63,7 @@ public class MovimientoService {
 	
 	
 	// MAPPERS
-	private MovimientoInventario toEntity(MovimientoFormDTO dto) {
+	private MovimientoInventario toEntity(MovimientoRequestDTO dto) {
 		
 		MovimientoInventario m = new MovimientoInventario();
 		Producto producto = productoRepository.findById(dto.getProductoId())
@@ -77,9 +77,9 @@ public class MovimientoService {
 		return m;
 	}
 	
-	private MovimientoDTO toDTO(MovimientoInventario m) {
+	private MovimientoResponseDTO toDTO(MovimientoInventario m) {
 		
-		MovimientoDTO dto = new MovimientoDTO();
+		MovimientoResponseDTO dto = new MovimientoResponseDTO();
 		
 		dto.setId(m.getId());
 		dto.setTipo(m.getTipo());

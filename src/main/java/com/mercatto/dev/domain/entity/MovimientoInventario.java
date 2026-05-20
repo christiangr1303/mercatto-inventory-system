@@ -1,6 +1,8 @@
-package com.mercatto.dev.model;
+package com.mercatto.dev.domain.entity;
 
 import java.time.LocalDateTime;
+
+import com.mercatto.dev.domain.enums.TipoMovimiento;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

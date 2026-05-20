@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.mercatto.dev.dto.CategoriaDTO;
+import com.mercatto.dev.dto.response.CategoriaResponseDTO;
 import com.mercatto.dev.service.CategoriaService;
 
 @Controller
@@ -27,12 +27,12 @@ public class CategoriaController {
 	
 	@GetMapping("/nuevo")
 	public String mostrarFormulario(Model model) {
-		model.addAttribute("categoria", new CategoriaDTO());
+		model.addAttribute("categoria", new CategoriaResponseDTO());
 		return "categorias/form";
 	}
 	
 	@PostMapping("/guardar")
-	public String guardar(@ModelAttribute CategoriaDTO dto) {
+	public String guardar(@ModelAttribute CategoriaResponseDTO dto) {
 		categoriaService.guardar(dto);
 		return "redirect:/categorias";
 	}

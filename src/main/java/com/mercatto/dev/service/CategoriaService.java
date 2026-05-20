@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.mercatto.dev.dto.CategoriaDTO;
-import com.mercatto.dev.model.Categoria;
+import com.mercatto.dev.domain.entity.Categoria;
+import com.mercatto.dev.dto.response.CategoriaResponseDTO;
 import com.mercatto.dev.repository.CategoriaRepository;
 
 @Service
@@ -15,17 +15,17 @@ public class CategoriaService {
 	@Autowired
 	private CategoriaRepository categoriaRepository;
 	
-	public List<CategoriaDTO> listar() {
+	public List<CategoriaResponseDTO> listar() {
 		return categoriaRepository.findAll()
 				.stream().map(this::toDTO).toList();
 	}
 	
-	public CategoriaDTO obtenerPorId(Long id) {
+	public CategoriaResponseDTO obtenerPorId(Long id) {
 		Categoria categoria = categoriaRepository.findById(id).orElseThrow();
 		return toDTO(categoria);
 	}
 	
-	public CategoriaDTO guardar(CategoriaDTO dto) {
+	public CategoriaResponseDTO guardar(CategoriaResponseDTO dto) {
 		Categoria categoria = toEntity(dto);
 		categoriaRepository.save(categoria);
 		return toDTO(categoria);
@@ -33,9 +33,9 @@ public class CategoriaService {
 	
 	
 	// MAPPERS
-	private CategoriaDTO toDTO(Categoria c) {
+	private CategoriaResponseDTO toDTO(Categoria c) {
 		
-		CategoriaDTO dto = new CategoriaDTO();
+		CategoriaResponseDTO dto = new CategoriaResponseDTO();
 		
 		dto.setId(c.getId());
 		dto.setNombre(c.getNombre());
@@ -45,7 +45,7 @@ public class CategoriaService {
 		
 	}
 	
-	private Categoria toEntity(CategoriaDTO dto) {
+	private Categoria toEntity(CategoriaResponseDTO dto) {
 		
 		Categoria c = new Categoria();
 		

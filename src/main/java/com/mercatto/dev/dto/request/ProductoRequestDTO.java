@@ -1,4 +1,4 @@
-package com.mercatto.dev.dto;
+package com.mercatto.dev.dto.request;
 
 import java.math.BigDecimal;
 
@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-public class ProductoFormDTO {
+public class ProductoRequestDTO {
 	
 	@NotBlank
 	private String nombre;

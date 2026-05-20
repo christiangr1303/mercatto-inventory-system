@@ -1,11 +1,11 @@
-package com.mercatto.dev.dto;
+package com.mercatto.dev.dto.request;
 
-import com.mercatto.dev.model.TipoMovimiento;
+import com.mercatto.dev.domain.enums.TipoMovimiento;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
-public class MovimientoFormDTO {
+public class MovimientoRequestDTO {
 
 	@NotNull
 	private TipoMovimiento tipo;

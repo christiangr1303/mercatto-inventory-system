@@ -7,8 +7,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.mercatto.dev.dto.ProveedorDTO;
-import com.mercatto.dev.model.Proveedor;
+import com.mercatto.dev.domain.entity.Proveedor;
+import com.mercatto.dev.dto.response.ProveedorResponseDTO;
 import com.mercatto.dev.repository.ProveedorRepository;
 
 @Service
@@ -17,28 +17,28 @@ public class ProveedorService {
 	@Autowired
 	private ProveedorRepository proveedorRepository;
 	
-	public List<ProveedorDTO> listar() {
+	public List<ProveedorResponseDTO> listar() {
 		return proveedorRepository.findAll()
 				.stream().map(this::toDTO).toList();
 	}
 	
-	public Page<ProveedorDTO> listar(Pageable pageable) {
+	public Page<ProveedorResponseDTO> listar(Pageable pageable) {
 		return proveedorRepository.findAll(pageable).map(this::toDTO);
 	}
 	
-	public ProveedorDTO obtenerPorId(Long id) {
+	public ProveedorResponseDTO obtenerPorId(Long id) {
 		Proveedor proveedor = proveedorRepository.findById(id).orElse(null);
 		return toDTO(proveedor);
 	}
 	
-	public ProveedorDTO guardar(ProveedorDTO dto) {
+	public ProveedorResponseDTO guardar(ProveedorResponseDTO dto) {
 		Proveedor proveedor= toEntity(dto);
 		proveedorRepository.save(proveedor);
 		return toDTO(proveedor);
 	}
 	
-	private ProveedorDTO toDTO(Proveedor p) {
-		ProveedorDTO dto = new ProveedorDTO();
+	private ProveedorResponseDTO toDTO(Proveedor p) {
+		ProveedorResponseDTO dto = new ProveedorResponseDTO();
 		dto.setId(p.getId());
 		dto.setNombre(p.getNombre());
 		dto.setEmail(p.getEmail());
@@ -46,7 +46,7 @@ public class ProveedorService {
 		return dto;
 	}
 	
-	private Proveedor toEntity(ProveedorDTO dto) {
+	private Proveedor toEntity(ProveedorResponseDTO dto) {
 		Proveedor p = new Proveedor();
 		p.setId(dto.getId());
 		p.setNombre(dto.getNombre());

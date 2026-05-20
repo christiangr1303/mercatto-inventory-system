@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.mercatto.dev.dto.ProveedorDTO;
+import com.mercatto.dev.dto.response.ProveedorResponseDTO;
 import com.mercatto.dev.service.ProveedorService;
 
 @Controller
@@ -29,7 +29,7 @@ public class ProveedorController {
 			Model model) {
 		
 		Pageable pageable = PageRequest.of(page, size);
-		Page<ProveedorDTO> proveedoresPage;
+		Page<ProveedorResponseDTO> proveedoresPage;
 		
 		proveedoresPage = proveedorService.listar(pageable);
 		
@@ -42,12 +42,12 @@ public class ProveedorController {
 	
 	@GetMapping("/nuevo")
 	public String mostrarFormulario(Model model) {
-		model.addAttribute("proveedor", new ProveedorDTO());
+		model.addAttribute("proveedor", new ProveedorResponseDTO());
 		return "proveedores/form";
 	}
 	
 	@PostMapping("/guardar")
-	public String guardar(@ModelAttribute ProveedorDTO dto) {
+	public String guardar(@ModelAttribute ProveedorResponseDTO dto) {
 		proveedorService.guardar(dto);
 		return "redirect:/proveedores";
 	}
