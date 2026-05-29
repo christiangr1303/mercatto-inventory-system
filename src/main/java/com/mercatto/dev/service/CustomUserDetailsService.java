@@ -8,10 +8,10 @@ import org.springframework.stereotype.Service;
 
 import com.mercatto.dev.domain.entity.Usuario;
 import com.mercatto.dev.repository.UsuarioRepository;
-import com.mercatto.dev.security.UsuarioDetails;
+import com.mercatto.dev.security.CustomUserDetails;
 
 @Service
-public class UsuarioDetailsService implements UserDetailsService {
+public class CustomUserDetailsService implements UserDetailsService {
 	
 	@Autowired
 	private UsuarioRepository usuarioRepository;
@@ -22,7 +22,7 @@ public class UsuarioDetailsService implements UserDetailsService {
 		Usuario usuario = usuarioRepository.findByEmail(email)
 				.orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
 		
-		return new UsuarioDetails(usuario);
+		return new CustomUserDetails(usuario);
 	}
 	
 }

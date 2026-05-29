@@ -33,6 +33,8 @@ public class UsuarioService {
 		Usuario user = new Usuario();
 		user.setEmail(dto.getEmail());
 		user.setPassword(passwordEncoder.encode(dto.getPassword()));
+		user.setFirstName(dto.getFirstName());
+		user.setLastName(dto.getLastName());
 		
 		usuarioRepository.save(user);
 		

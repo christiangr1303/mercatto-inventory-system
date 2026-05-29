@@ -22,11 +22,13 @@ public class SecurityConfig {
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		
 		// Usar este bloque solo para pruebas
+		/*
 		http
 		.csrf(csrf -> csrf.disable())
 		.authorizeHttpRequests(auth -> auth
 				.anyRequest().permitAll());
-		/*
+		*/
+		
 		http
 		.csrf(csrf -> csrf.disable()) // Se usa cuando se hace pruebas
 		.authorizeHttpRequests(auth -> auth
@@ -47,7 +49,7 @@ public class SecurityConfig {
 		.exceptionHandling(e -> e
 				.accessDeniedPage("/error/403")
 		);
-		*/
+		
 		return http.build();
 	}
 	

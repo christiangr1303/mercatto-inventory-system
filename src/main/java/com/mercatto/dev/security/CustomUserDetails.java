@@ -9,15 +9,17 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.mercatto.dev.domain.entity.Usuario;
+import com.mercatto.dev.domain.enums.Role;
 
-public class UsuarioDetails implements UserDetails {
+public class CustomUserDetails implements UserDetails {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private Usuario usuario;
-	
-	public UsuarioDetails(Usuario usuario) {
+	private final Usuario usuario;
+
+	public CustomUserDetails(Usuario usuario) {
 		this.usuario = usuario;
+
 	}
 
 	@Override
@@ -35,6 +37,18 @@ public class UsuarioDetails implements UserDetails {
 	public String getUsername() {
 		// Defines que es el username (username = email)
 		return usuario.getEmail();
+	}
+	
+	public String getFirstName() {
+		return usuario.getFirstName();
+	}
+	
+	public String getLastName() {
+		return usuario.getLastName();
+	}
+	
+	public Role getRole() {
+		return usuario.getRole();
 	}
 	
 	@Override public boolean isAccountNonExpired() { return true; }

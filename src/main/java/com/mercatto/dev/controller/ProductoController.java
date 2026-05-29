@@ -18,9 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.mercatto.dev.domain.entity.Usuario;
+import com.mercatto.dev.dto.request.AuthRequestDTO;
 import com.mercatto.dev.dto.request.ProductoRequestDTO;
 import com.mercatto.dev.dto.response.ProductoResponseDTO;
-import com.mercatto.dev.security.UsuarioDetails;
+import com.mercatto.dev.security.CustomUserDetails;
 import com.mercatto.dev.service.CategoriaService;
 import com.mercatto.dev.service.ProductoService;
 import com.mercatto.dev.service.ProveedorService;
@@ -97,7 +98,7 @@ public class ProductoController {
 	public String guardarProducto(@ModelAttribute ProductoRequestDTO dto) {
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		UsuarioDetails userDetails = (UsuarioDetails) auth.getPrincipal();
+		CustomUserDetails userDetails = (CustomUserDetails) auth.getPrincipal();
 		
 		Usuario usuario = userDetails.getUsuario();
 		
